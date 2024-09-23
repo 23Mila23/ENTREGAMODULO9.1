@@ -100,32 +100,25 @@ export const totalPorTipoIva = (
     cuantia: 0,
   };
 
-  for (let i = 0; i < resultadoLineaTicket.length; i++) {
-    const { precioConIva, precioSinIva, tipoIva } = resultadoLineaTicket[i];
+  resultadoLineaTicket.forEach((item) => {
+    const { precioSinIva, tipoIva } = item;
 
     switch (tipoIva) {
       case "general":
-        ivaGeneral.cuantia += parseFloat(
-          (precioConIva - precioSinIva).toFixed(2)
-        );
+        ivaGeneral.cuantia += calcularIva(precioSinIva, tipoIva);
         break;
       case "reducido":
-        ivaReducido.cuantia += parseFloat(
-          (precioConIva - precioSinIva).toFixed(2)
-        );
+        ivaReducido.cuantia += calcularIva(precioSinIva, tipoIva);
         break;
       case "superreducidoA":
-        ivaSuperReducidoA.cuantia += parseFloat(
-          (precioConIva - precioSinIva).toFixed(2)
-        );
+        ivaSuperReducidoA.cuantia += calcularIva(precioSinIva, tipoIva);
         break;
       case "superreducidoB":
-        ivaSuperReducidoB.cuantia += parseFloat(
-          (precioConIva - precioSinIva).toFixed(2)
-        );
+        ivaSuperReducidoB.cuantia += calcularIva(precioSinIva, tipoIva);
         break;
     }
-  }
+  });
+
   const totalPorTipoIva: TotalPorTipoIva[] = [
     ivaGeneral,
     ivaReducido,
