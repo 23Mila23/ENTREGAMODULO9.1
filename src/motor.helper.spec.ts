@@ -1,5 +1,5 @@
-import { calculaTicket } from "./motor";
-import { LineaTicket } from "./modelo";
+import { calculaTicket, calcularTotalTicket } from "./motor.helper";
+import { LineaTicket, ResultadoLineaTicket } from "./modelo";
 
 describe("calculaTicket", () => {
   it("deberia devolver un array con el precio calculado con y sin Iva", () => {
@@ -43,3 +43,36 @@ describe("calculaTicket", () => {
     ]);
   });
 });
+
+describe("calcularTotalTicket", () => {
+  it("Debería devolver un objeto con el total con IVA, sin IVA y el total del IVA", () => {
+    //Arrange
+    const resultadoLineasTicket : ResultadoLineaTicket[] = [
+      {
+        nombre: "Legumbres",
+        cantidad: 2,
+        precioSinIva: 4,
+        tipoIva: "general",
+        precioConIva: 4.84,
+      },
+      {
+        nombre: "Perfume",
+        cantidad: 3,
+        precioSinIva: 60,
+        tipoIva: "general",
+        precioConIva: 72.6,
+      },
+    ]
+    //Act
+
+    const result = calcularTotalTicket(resultadoLineasTicket);
+
+  //Assert
+
+  expect(result).toEqual({
+    totalSinIva : 64,
+    totalConIva : 77.44,
+    totalIva : 13.44
+  })
+  })
+})
