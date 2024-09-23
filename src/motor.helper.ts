@@ -46,16 +46,16 @@ const productos: LineaTicket[] = [
        let precioConIva = 0;
        switch (producto.tipoIva){
          case "general" :
-         precioConIva = parseInt(((precioSinIva*21)/100).toFixed(2)) + precioSinIva;
+         precioConIva = parseFloat(((precioSinIva*21)/100).toFixed(2)) + precioSinIva;
          break;
          case "reducido" :
-         precioConIva = parseInt(((precioSinIva*10)/100).toFixed(2)) + precioSinIva;
+         precioConIva = parseFloat(((precioSinIva*10)/100).toFixed(2)) + precioSinIva;
          break;
          case "superreducidoA":
-         precioConIva = parseInt(((precioSinIva*5)/100).toFixed(2)) + precioSinIva;
+         precioConIva = parseFloat(((precioSinIva*5)/100).toFixed(2)) + precioSinIva;
          break;
          case "superreducidoB":
-         precioConIva = parseInt(((precioSinIva*4)/100).toFixed(2)) + precioSinIva;
+         precioConIva = parseFloat(((precioSinIva*4)/100).toFixed(2)) + precioSinIva;
          break;
          case "superreducidoC":
          precioConIva = ((precioSinIva*0)/100) + precioSinIva; // ESTOS DAN 0 SI NO LOS PONGO PASA ALGO?
@@ -81,21 +81,45 @@ const productos: LineaTicket[] = [
 
    export const calcularTotalTicket = (resultadoLineaTicket : ResultadoLineaTicket[]) : ResultadoTotalTicket => {
 
-    const resultadoTotalTicket = 0;
+    let totalSinIva = 0;
+    let totalConIva = 0;
+    let totalIva = 0;
 
     for( let i = 0; i < resultadoLineaTicket.length; i++) {
-        const {precioSinIva, precioConIva, tipoIva} = resultadoLineaTicket[i]
-
+        const {precioSinIva, precioConIva, tipoIva} = resultadoLineaTicket[i];
+        totalSinIva += precioSinIva;
+        totalConIva += precioConIva;
+        switch (tipoIva){
+            case "general" :
+            totalIva += parseFloat(((precioSinIva*21)/100).toFixed(2));
+            console.log(totalIva)
+            break;
+            case "reducido" :
+            totalIva += parseFloat(((precioSinIva*10)/100).toFixed(2));
+            break;
+            case "superreducidoA":
+            totalIva += parseFloat(((precioSinIva*5)/100).toFixed(2));
+            break;
+            case "superreducidoB":
+            totalIva += parseFloat(((precioSinIva*4)/100).toFixed(2));
+            break;
+            case "superreducidoC":
+            totalIva += ((precioSinIva*0)/100); // ESTOS DAN 0 SI NO LOS PONGO PASA ALGO?
+            break;
+            case "sinIva":
+            totalIva += ((precioSinIva*0)/100);
+            break;
+          }
     }
-
-   }
+    return {
+        totalSinIva,
+        totalConIva,
+        totalIva
+    }
+    }
+        
   
 
-/* interface ResultadoTotalTicket {
-  totalSinIva: number;
-  totalConIva: number;
-  totalIva: number; ES EL TOTAL DE TODO EL IVA, AQUI NO DEVOLVEMOS UN ARRAY SOLO UN OBJETO
-} */
 
 /*TENEMOS QUE LLEGAR A ESTE FINAL:
 interface TicketFinal {
