@@ -1,4 +1,4 @@
-import{LineaTicket, ResultadoLineaTicket, ResultadoTotalTicket} from "./modelo"
+import{LineaTicket, ResultadoLineaTicket, ResultadoTotalTicket, TotalPorTipoIva} from "./modelo"
 
 const productos: LineaTicket[] = [
     {
@@ -92,7 +92,6 @@ const productos: LineaTicket[] = [
         switch (tipoIva){
             case "general" :
             totalIva += parseFloat(((precioSinIva*21)/100).toFixed(2));
-            console.log(totalIva)
             break;
             case "reducido" :
             totalIva += parseFloat(((precioSinIva*10)/100).toFixed(2));
@@ -104,7 +103,7 @@ const productos: LineaTicket[] = [
             totalIva += parseFloat(((precioSinIva*4)/100).toFixed(2));
             break;
             case "superreducidoC":
-            totalIva += ((precioSinIva*0)/100); // ESTOS DAN 0 SI NO LOS PONGO PASA ALGO?
+            totalIva += ((precioSinIva*0)/100); 
             break;
             case "sinIva":
             totalIva += ((precioSinIva*0)/100);
@@ -117,9 +116,53 @@ const productos: LineaTicket[] = [
         totalIva
     }
     }
-        
   
 
+export const totalPorTipoIva = (resultadoLineaTicket : ResultadoLineaTicket []) : TotalPorTipoIva [] => {
+    let ivaGeneral : TotalPorTipoIva= {
+        tipoIva : "general",
+        cuantia : 0,
+    };
+
+    let ivaReducido : TotalPorTipoIva = {
+        tipoIva : "reducido",
+        cuantia : 0,
+    }
+
+    let ivaSuperReducidoA : TotalPorTipoIva = {
+        tipoIva : "superreducidoA",
+        cuantia : 0,
+    }
+
+    let ivaSuperReducidoB : TotalPorTipoIva = {
+        tipoIva : "superreducidoB",
+        cuantia : 0,
+    }
+
+for(let i = 0; i < resultadoLineaTicket.length; i++){
+    const {precioConIva, precioSinIva, tipoIva} = resultadoLineaTicket[i];
+    
+    switch (tipoIva){
+        case "general" :
+        ivaGeneral.cuantia += parseFloat((precioConIva - precioSinIva).toFixed(2));
+        break;
+        case "reducido" :
+        ivaReducido.cuantia += parseFloat((precioConIva - precioSinIva).toFixed(2));
+        break;
+        case "superreducidoA":
+        ivaSuperReducidoA.cuantia += parseFloat((precioConIva - precioSinIva).toFixed(2));
+        break;
+        case "superreducidoB":
+        ivaSuperReducidoB.cuantia += parseFloat((precioConIva - precioSinIva).toFixed(2));
+        break;
+      }
+
+}
+ const  totalPorTipoIva : TotalPorTipoIva [] = [ivaGeneral,ivaReducido,ivaSuperReducidoA,ivaSuperReducidoB];
+
+ return totalPorTipoIva
+
+}
 
 /*TENEMOS QUE LLEGAR A ESTE FINAL:
 interface TicketFinal {

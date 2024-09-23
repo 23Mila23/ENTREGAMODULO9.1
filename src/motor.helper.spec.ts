@@ -1,4 +1,4 @@
-import { calculaTicket, calcularTotalTicket } from "./motor.helper";
+import { calculaTicket, calcularTotalTicket, totalPorTipoIva } from "./motor.helper";
 import { LineaTicket, ResultadoLineaTicket } from "./modelo";
 
 describe("calculaTicket", () => {
@@ -74,5 +74,51 @@ describe("calcularTotalTicket", () => {
     totalConIva : 77.44,
     totalIva : 13.44
   })
+  })
+})
+
+describe("totalPorTipoIva", () => {
+  it("Debería devolver un array de objetos con el tipo de iva y su cantidad total aplicada", () => {
+    //Arrange
+    const resultadoLineasTicket : ResultadoLineaTicket[] = [
+      {
+        nombre: "Legumbres",
+        cantidad: 2,
+        precioSinIva: 4,
+        tipoIva: "general",
+        precioConIva: 4.84,
+      },
+      {
+        nombre: "Perfume",
+        cantidad: 3,
+        precioSinIva: 60,
+        tipoIva: "general",
+        precioConIva: 72.6,
+      },
+      
+    ];
+    //Act
+     const result = totalPorTipoIva(resultadoLineasTicket);
+    //Assert
+
+    expect(result).toEqual([
+      {
+        tipoIva : "general",
+        cuantia : 13.44,
+      },
+
+      {
+        tipoIva : "reducido",
+        cuantia : 0,
+      },
+      {
+        tipoIva : "superreducidoA",
+        cuantia : 0,
+      },
+      {
+        tipoIva : "superreducidoB",
+        cuantia : 0,
+      },
+    ])
   })
 })
