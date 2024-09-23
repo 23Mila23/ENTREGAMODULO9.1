@@ -1,6 +1,7 @@
-import{LineaTicket, ResultadoLineaTicket, ResultadoTotalTicket} from "./modelo"
+import{LineaTicket,TicketFinal} from "./modelo"
+import {calculaTicket, calcularTotalTicket, totalPorTipoIva} from "./motor.helper"
 
-const productos: LineaTicket[] = [
+export const productos: LineaTicket[] = [
     {
       producto: {
         nombre: "Legumbres",
@@ -36,13 +37,15 @@ const productos: LineaTicket[] = [
   ];
 
   
-  //AQUI VA LA FUNCIÓN TICKET FINAL SOLO
+ export const ticketFinal = (productos : LineaTicket[]) : TicketFinal => {
+    const lineas = calculaTicket(productos);
+    const total = calcularTotalTicket(lineas);
+    const desgloseIva = totalPorTipoIva(lineas);
 
-
-
-/*TENEMOS QUE LLEGAR A ESTE FINAL:
-interface TicketFinal {
-  lineas: ResultadoLineaTicket[];
-  total: ResultadoTotalTicket;
-  desgloseIva: TotalPorTipoIva[];
-} */
+    const ticketFinal : TicketFinal = {
+        lineas,
+        total,
+        desgloseIva
+    }
+    return ticketFinal
+ }

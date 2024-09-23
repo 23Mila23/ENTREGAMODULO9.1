@@ -1,43 +1,8 @@
 import{LineaTicket, ResultadoLineaTicket, ResultadoTotalTicket, TotalPorTipoIva} from "./modelo"
 
-const productos: LineaTicket[] = [
-    {
-      producto: {
-        nombre: "Legumbres",
-        precio: 2,
-        tipoIva: "general",
-      },
-      cantidad: 2,
-    },
-    {
-      producto: {
-        nombre: "Perfume",
-        precio: 20,
-        tipoIva: "general",
-      },
-      cantidad: 3,
-    },
-    {
-      producto: {
-        nombre: "Leche",
-        precio: 1,
-        tipoIva: "superreducidoC",
-      },
-      cantidad: 6,
-    },
-    {
-      producto: {
-        nombre: "Lasaña",
-        precio: 5,
-        tipoIva: "superreducidoA",
-      },
-      cantidad: 1,
-    },
-  ];
-
   export const calculaTicket = (lineasTicket: LineaTicket[]) : ResultadoLineaTicket[] => { //TAMBIÉN SE PUEDE USAR REDUCE
     let resultadoLinea : ResultadoLineaTicket[] = [];
-    
+    console.trace("lineasTicket", lineasTicket)
      for (let i = 0; i < lineasTicket.length; i++) {
         const {producto, cantidad} = lineasTicket[i]; // MAS O MENOS CLARO
 
@@ -163,10 +128,3 @@ for(let i = 0; i < resultadoLineaTicket.length; i++){
  return totalPorTipoIva
 
 }
-
-/*TENEMOS QUE LLEGAR A ESTE FINAL:
-interface TicketFinal {
-  lineas: ResultadoLineaTicket[];
-  total: ResultadoTotalTicket;
-  desgloseIva: TotalPorTipoIva[];
-} */
